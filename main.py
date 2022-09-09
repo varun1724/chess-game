@@ -2,11 +2,14 @@ import constant
 import background
 import pygame
 import draw_game
+import piece
+import setup
 
 
 def main():
 
     bg = background.Background(constant.WIN_WIDTH, constant.WIN_HEIGHT)
+    pieces = setup.setup_board()
 
     win = pygame.display.set_mode((constant.WIN_WIDTH, constant.WIN_HEIGHT))
     clock = pygame.time.Clock()
@@ -24,7 +27,7 @@ def main():
 
 
 
-        draw_game.draw_window(win, bg)
+        draw_game.draw_window(win, bg, pieces)
 
     
     pygame.quit()

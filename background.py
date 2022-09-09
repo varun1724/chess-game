@@ -21,3 +21,7 @@ class Background:
                     pygame.draw.rect(win, self.layer, (i*self.width, j*self.height, self.width, self.height))
                 else:
                     pygame.draw.rect(win, self.layer, ((i-1)*self.width, j*self.height, self.width, self.height))
+
+
+
+
