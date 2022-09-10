@@ -1,13 +1,12 @@
 import constant
+import conversions
 
 # Returns a list of x, y coords
 def check_moves(pieces, x_coord, y_coord):
 
-    for a, row in enumerate(constant.POS_LIST):
-        for b, p in enumerate(row):
-            if x_coord == p[0] and y_coord == p[1]:
-                x = a
-                y = b
+    x, y = conversions.pixels_to_list(x_coord, y_coord)
+
+    # print(pieces[x][y])
     
     if pieces[x][y].type == 'p':
         return check_pawn(pieces, x, y)
@@ -30,6 +29,13 @@ def check_pawn(pieces, x, y):
     if pieces[x][y].team == 'w':
         if pieces[x-1][y] == ' ':
             spaces.append((x-1, y))
+        if x == 6 and pieces[x-2][y] == ' ':
+            spaces.append((x-2, y))
+        if y > 0 and y < 7:
+            if pieces[x-1][y+1] != ' ' and pieces[x-1][y+1].type != 'k' and pieces[x-1][y+1].team != 'b':
+                spaces.append((x-1, y+1))
+            if pieces[x-1][y-1] != ' ' and pieces[x-1][y-1].type != 'k' and pieces[x-1][y-1].team != 'b':
+                spaces.append((x-1, y-1))
 
     else:
         pass

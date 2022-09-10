@@ -11,13 +11,11 @@ class Piece:
         self.can_kill = can_kill
 
 
-    def set_pos(self, pos):
-        self.pos = pos
-
-
     def draw(self, win):
 
         win.blit(self.img, self.pos)
+
+
 
     def get_mask_rect(self):
 

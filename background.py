@@ -1,5 +1,6 @@
 import pygame
 import constant
+import conversions
 from PIL import ImageColor
 
 
@@ -18,22 +19,6 @@ class Background:
         self.move_list = move_list
         self.selected = selected
         self.can_move = can_move
-
-    def set_x(self, x):
-        self.x = x
-    
-    def set_y(self, y):
-        self.y = y
-
-    def set_selected(self, selected):
-        self.selected = selected
-
-    def set_move_state(self, can_move):
-        self.can_move = can_move
-
-    def set_move_list(self, move_list):
-        self.move_list = move_list
-
 
     def draw(self, win):
 
@@ -54,8 +39,14 @@ class Background:
                     # print(constant.POS_LIST[s[0]][s[1]][0])
                     pygame.draw.rect(win, self.move_option_color, (constant.POS_LIST[s[0]][s[1]][0], constant.POS_LIST[s[0]][s[1]][1], self.width, self.height))
 
-        
 
+    def move(self, pieces, piece, move):
 
+        pieces[move[0]][move[1]] = piece
+        p1, p2 = conversions.pixels_to_list(piece.pos[0], piece.pos[1])
+        piece.pos = constant.POS_LIST[move[0]][move[1]]
+        pieces[p1][p2] = ' '
+
+        return pieces
 
 
