@@ -1,4 +1,5 @@
 import constant
+import pygame
 
 class Piece:
 
@@ -17,3 +18,12 @@ class Piece:
     def draw(self, win):
 
         win.blit(self.img, self.pos)
+
+    def get_mask_rect(self):
+
+        rect = pygame.mask.from_surface(self.img).get_rect()
+
+        rect.x = self.pos[0]
+        rect.y = self.pos[1]
+
+        return rect

@@ -4,6 +4,7 @@ import os
 WIN_HEIGHT = 800
 WIN_WIDTH = 800
 
+
 PIECE_IMGS = [
     pygame.transform.scale(pygame.image.load(os.path.join("chess-imgs", "Chess_rdt60.png")), (100, 100)),
     pygame.transform.scale(pygame.image.load(os.path.join("chess-imgs", "Chess_ndt60.png")), (100, 100)),
