@@ -63,135 +63,93 @@ def check_king(pieces, x, y):
 
     return "king"
 
-# white rook not capturing pond until the other rook moves
 def check_rook(pieces, x, y):
 
     spaces = []
 
-    if pieces[x][y].team == 'w':
-        if x < 7:
-            i = x + 1
-            while i < 8:
-                if pieces[i][y] == ' ': 
-                    spaces.append((i, y))
-                elif pieces[i][y].team == 'b' and pieces[i][y].type != 'k':
-                    spaces.append((i, y))
-                    break
+    straights = [
+        [[x + i, y] for i in range(1, 8)],
+        [[x - i, y] for i in range(1, 8)],
+        [[x, y + i] for i in range(1, 8)],
+        [[x, y - i] for i in range(1, 8)]
+    ]
+
+    for row in straights:
+        next_row = False
+        for c in row:
+            if is_valid(c[0], c[1]) and not next_row:
+                if pieces[c[0]][c[1]] == ' ':
+                    spaces.append((c[0], c[1]))
+                elif pieces[x][y].team != pieces[c[0]][c[1]].team and pieces[c[0]][c[1]].type != 'k':
+                    spaces.append((c[0], c[1]))
+                    next_row = True
                 else:
-                    break
-                i += 1
-        if x > 0:
-            i = x - 1
-            while i > -1:
-                if pieces[i][y] == ' ': 
-                    spaces.append((i, y))
-                elif pieces[i][y].team == 'b' and pieces[i][y].type != 'k':
-                    spaces.append((i, y))
-                    break
-                else:
-                    break
-                i -= 1
-        if y < 7:
-            i = y + 1
-            while i < 8:
-                if pieces[x][i] == ' ': 
-                    spaces.append((x, i))
-                elif pieces[x][i].team == 'b' and pieces[x][i].type != 'k':
-                    spaces.append((x, i))
-                    break
-                else:
-                    break
-                i += 1
-        if y > 0:
-            i = y - 1
-            while i > -1:
-                if pieces[x][i] == ' ': 
-                    spaces.append((x, i))
-                elif pieces[x][i].team == 'b' and pieces[x][i].type != 'k':
-                    spaces.append((x, i))
-                    break
-                else:
-                    break
-                i -= 1
-    else:
-        if x < 7:
-            i = x + 1
-            while i < 8:
-                if pieces[i][y] == ' ': 
-                    spaces.append((i, y))
-                elif pieces[i][y].team == 'w' and pieces[i][y].type != 'k':
-                    spaces.append((i, y))
-                    break
-                else:
-                    break 
-                i += 1
-        if x > 0:
-            i = x - 1
-            while i > -1:
-                if pieces[i][y] == ' ':  
-                    spaces.append((i, y))
-                elif pieces[i][y].team == 'w' and pieces[i][y].type != 'k':
-                    spaces.append((i, y))
-                    break
-                i -= 1
-        if y < 7:
-            i = y + 1
-            while i < 8:
-                if pieces[x][i] == ' ':  
-                    spaces.append((x, i))
-                elif pieces[x][i].team == 'w' and pieces[x][i].type != 'k':
-                    spaces.append((x, i))
-                    break
-                i += 1
-        if y > 0:
-            i = y - 1
-            while i > -1:
-                if pieces[x][i] == ' ':  
-                    spaces.append((x, i))
-                elif pieces[x][i].team == 'w' and pieces[x][i].type != 'k':
-                    spaces.append((x, i))
-                    break
-                i -= 1
-        
+                    next_row = True
 
     return spaces
 
 
 def check_knight(pieces, x, y):
 
-    if pieces[x][y].team == 'w':
-        pass
+    spaces = []
 
-    else:
-        pass
-
-    return "knight"
+    for i in range(-2, 3):
+        for j in range(-2, 3):
+            if i**2 + j**2 == 5:
+                if is_valid(x+i, y+j):
+                    if pieces[x+i][y+j] == ' ': 
+                        spaces.append((x+i, y+j))
+                    elif pieces[x][y].team != pieces[x+i][y+j].team and pieces[x+i][y+j].type != 'k':
+                        spaces.append((x+i, y+j))
+    return spaces
 
 
 def check_queen(pieces, x, y):
 
+    spaces = []
+
     if pieces[x][y].team == 'w':
         pass
 
     else:
-        pass
+        pass 
 
-    return "queen"
+    return spaces
 
 
 def check_bishop(pieces, x, y):
 
-    if pieces[x][y].team == 'w':
-        pass
+    spaces = []
 
-    else:
-        pass
+    diagonals = [
+        [[x + i, y + i] for i in range(1, 8)],
+        [[x + i, y - i] for i in range(1, 8)],
+        [[x - i, y + i] for i in range(1, 8)],
+        [[x - i, y - i] for i in range(1, 8)]
+    ]
 
-    return "bishop"
+    for row in diagonals:
+        next_row = False
+        for c in row:
+            if is_valid(c[0], c[1]) and not next_row:
+                if pieces[c[0]][c[1]] == ' ':
+                    spaces.append((c[0], c[1]))
+                elif pieces[x][y].team != pieces[c[0]][c[1]].team and pieces[c[0]][c[1]].type != 'k':
+                    spaces.append((c[0], c[1]))
+                    next_row = True
+                else:
+                    next_row = True
+
+    return spaces
 
 
 
+def is_valid(x, y):
 
+    if x >= 0 and x <= 7:
+        if y >= 0 and y <= 7:
+            return True
+    return False
 
 
 

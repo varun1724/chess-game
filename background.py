@@ -10,6 +10,7 @@ class Background:
     layer_color = ImageColor.getcolor("#964d22", "RGB")
     selected_color = (129, 207, 106)
     move_option_color = (169, 169, 169)
+    border_color = (0, 0, 0)
 
     def __init__(self, width, height, x=-1, y=-1, move_list=[], selected=False, can_move=False):
         self.width = width / 8
@@ -33,11 +34,13 @@ class Background:
 
         if self.selected:
             pygame.draw.rect(win, self.selected_color, (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(win, self.border_color, (self.x, self.y, self.width, self.height), 1)
+
 
             if self.can_move:
                 for s in self.move_list:
-                    # print(constant.POS_LIST[s[0]][s[1]][0])
                     pygame.draw.rect(win, self.move_option_color, (constant.POS_LIST[s[0]][s[1]][0], constant.POS_LIST[s[0]][s[1]][1], self.width, self.height))
+                    pygame.draw.rect(win, self.border_color, (constant.POS_LIST[s[0]][s[1]][0], constant.POS_LIST[s[0]][s[1]][1], self.width, self.height), 1)
 
 
     def move(self, pieces, piece, move):
