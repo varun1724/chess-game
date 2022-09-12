@@ -108,11 +108,28 @@ def check_queen(pieces, x, y):
 
     spaces = []
 
-    if pieces[x][y].team == 'w':
-        pass
+    moves = [
+        [[x + i, y + i] for i in range(1, 8)],
+        [[x + i, y - i] for i in range(1, 8)],
+        [[x - i, y + i] for i in range(1, 8)],
+        [[x - i, y - i] for i in range(1, 8)],
+        [[x + i, y] for i in range(1, 8)],
+        [[x - i, y] for i in range(1, 8)],
+        [[x, y + i] for i in range(1, 8)],
+        [[x, y - i] for i in range(1, 8)]
+    ]
 
-    else:
-        pass 
+    for row in moves:
+        next_row = False
+        for c in row:
+            if is_valid(c[0], c[1]) and not next_row:
+                if pieces[c[0]][c[1]] == ' ':
+                    spaces.append((c[0], c[1]))
+                elif pieces[x][y].team != pieces[c[0]][c[1]].team and pieces[c[0]][c[1]].type != 'k':
+                    spaces.append((c[0], c[1]))
+                    next_row = True
+                else:
+                    next_row = True
 
     return spaces
 
