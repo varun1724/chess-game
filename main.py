@@ -4,7 +4,6 @@ import pygame
 import draw_game
 import setup
 import rules
-import conversions
 
 
 def main():
@@ -17,6 +16,7 @@ def main():
 
     run = True
 
+    just_moved = False
 
     while run:
 
@@ -31,7 +31,9 @@ def main():
                     for p in rows:
                         if p != ' ':
                             if p.get_mask_rect().collidepoint(x, y):
-                                if bg.selected == False:
+                                print("ran1")
+                                if bg.selected == False and not just_moved:
+                                    print("Case 1")
 
                                     selected_piece = p
 
@@ -44,20 +46,35 @@ def main():
                                         bg.can_move = True
                                         bg.move_list = move_options
 
+                                elif bg.can_move == True:
+                                    print("case 2")
+                                    is_movable_spot = False
+                                    for m in move_options:
+                                        rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
+                                        if rect.collidepoint(x, y):
+                                            pieces = bg.move(pieces, selected_piece, m)
+                                            bg.can_move = False
+                                            bg.selected = False
+                                            is_movable_spot = True
+                                    if not is_movable_spot:
+                                        bg.selected = False
+                                        bg.can_move = False
 
                                 else:
+                                    print("case 3")
                                     bg.selected = False
                                     bg.can_move = False
+                                    just_moved = False
 
                         elif bg.can_move == True:
+                            print("case 4")
                             for m in move_options:
-                                print(m)
                                 rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
                                 if rect.collidepoint(x, y):
-                                    print(x, y)
                                     pieces = bg.move(pieces, selected_piece, m)
                                     bg.can_move = False
                                     bg.selected = False
+                                    just_moved = True
                                     
                             
 

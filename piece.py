@@ -1,4 +1,3 @@
-import constant
 import pygame
 
 class Piece:
@@ -14,7 +13,6 @@ class Piece:
     def draw(self, win):
 
         win.blit(self.img, self.pos)
-
 
 
     def get_mask_rect(self):

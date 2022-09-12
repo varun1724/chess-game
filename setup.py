@@ -2,7 +2,6 @@ import piece
 import constant
 
 
-
 def setup_board() -> list:
 
         board = [[' ' for _ in range(0, 8)] for _ in range(0, 8)]
@@ -35,34 +34,3 @@ def setup_board() -> list:
 
 
         return board
-
-
-def setup_graphics() -> dict:
-
-    graphics = {
-        (0, 0): constant.PIECE_IMGS[0], (1, 0): constant.PIECE_IMGS[1], (2, 0): constant.PIECE_IMGS[2], (3, 0): constant.PIECE_IMGS[3],
-        (4, 0): constant.PIECE_IMGS[4], (5, 0): constant.PIECE_IMGS[2], (6, 0): constant.PIECE_IMGS[1], (7, 0): constant.PIECE_IMGS[0],
-
-        (0, 1): constant.PIECE_IMGS[5], (1, 1): constant.PIECE_IMGS[5], (2, 1): constant.PIECE_IMGS[5], (3, 1): constant.PIECE_IMGS[5],
-        (4, 1): constant.PIECE_IMGS[5], (5, 1): constant.PIECE_IMGS[5], (6, 1): constant.PIECE_IMGS[5], (7, 1): constant.PIECE_IMGS[5],
-
-        (0, 2): None, (1, 2): None, (2, 2): None, (3, 2): None,
-        (4, 2): None, (5, 2): None, (6, 2): None, (7, 2): None,
-
-        (0, 3): None, (1, 3): None, (2, 3): None, (3, 3): None,
-        (4, 3): None, (5, 3): None, (6, 3): None, (7, 3): None,
-
-        (0, 4): None, (1, 4): None, (2, 4): None, (3, 4): None,
-        (4, 4): None, (5, 4): None, (6, 4): None, (7, 4): None,
-
-        (0, 5): None, (1, 5): None, (2, 5): None, (3, 5): None,
-        (4, 5): None, (5, 5): None, (6, 5): None, (7, 5): None,
-
-        (0, 6): constant.PIECE_IMGS[6], (1, 6): constant.PIECE_IMGS[6], (2, 6): constant.PIECE_IMGS[6], (3, 6): constant.PIECE_IMGS[5],
-        (4, 6): constant.PIECE_IMGS[6], (5, 6): constant.PIECE_IMGS[6], (6, 6): constant.PIECE_IMGS[6], (7, 6): constant.PIECE_IMGS[6],
-
-        (0, 7): constant.PIECE_IMGS[7], (1, 7): constant.PIECE_IMGS[8], (2, 7): constant.PIECE_IMGS[9], (3, 7): constant.PIECE_IMGS[10],
-        (4, 7): constant.PIECE_IMGS[11], (5, 7): constant.PIECE_IMGS[9], (6, 7): constant.PIECE_IMGS[8], (7, 7): constant.PIECE_IMGS[7]
-    }
-
-    return graphics
