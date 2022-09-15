@@ -2,12 +2,13 @@ import pygame
 
 class Piece:
 
-    def __init__(self, team, type, image, pos, can_kill=False):
+    def __init__(self, team, type, image, pos, can_kill=False, can_castle=False):
         self.team = team
         self.type = type
         self.img = image
         self.pos = pos
         self.can_kill = can_kill
+        self.can_castle = can_castle
 
 
     def draw(self, win):

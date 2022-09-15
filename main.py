@@ -1,6 +1,7 @@
 import constant
 import background
 import pygame
+from conversions import pixels_to_list
 import draw_game
 import setup
 import rules
@@ -15,7 +16,7 @@ def main():
     clock = pygame.time.Clock()
 
     run = True
-
+    white_turn = True
     just_moved = False
 
     while run:
@@ -35,16 +36,18 @@ def main():
                                 if bg.selected == False and not just_moved:
                                     # print("Case 1")
 
-                                    selected_piece = p
+                                    if (white_turn and p.team == 'w') or (not white_turn and p.team == 'b'):
 
-                                    bg.x = p.get_mask_rect().x
-                                    bg.y = p.get_mask_rect().y
-                                    bg.selected = True
+                                        selected_piece = p
 
-                                    move_options = rules.check_moves(pieces, p.pos[0], p.pos[1])
-                                    if len(move_options) > 0:
-                                        bg.can_move = True
-                                        bg.move_list = move_options
+                                        bg.x = p.get_mask_rect().x
+                                        bg.y = p.get_mask_rect().y
+                                        bg.selected = True
+
+                                        move_options = rules.check_moves(pieces, p.pos[0], p.pos[1])
+                                        if len(move_options) > 0:
+                                            bg.can_move = True
+                                            bg.move_list = move_options
 
                                 elif bg.can_move == True:
                                     # print("case 2")
@@ -52,7 +55,10 @@ def main():
                                     for m in move_options:
                                         rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
                                         if rect.collidepoint(x, y):
-                                            pieces = bg.move(pieces, selected_piece, m)
+                                            pieces = rules.move(pieces, selected_piece, m)
+                                            # a, b = pixels_to_list(selected_piece.pos[0], selected_piece.pos[1])
+                                            # print(rules.in_check(pieces, a, b))
+                                            white_turn = not white_turn
                                             bg.can_move = False
                                             bg.selected = False
                                             is_movable_spot = True
@@ -71,14 +77,14 @@ def main():
                             for m in move_options:
                                 rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
                                 if rect.collidepoint(x, y):
-                                    pieces = bg.move(pieces, selected_piece, m)
+                                    pieces = rules.move(pieces, selected_piece, m)
+                                    # a, b = pixels_to_list(selected_piece.pos[0], selected_piece.pos[1])
+                                    # print(rules.in_check(pieces, a, b))
+                                    white_turn = not white_turn
                                     bg.can_move = False
                                     bg.selected = False
                                     just_moved = True
                                     
-                            
-
-                                
         draw_game.draw_window(win, bg, pieces)
 
     

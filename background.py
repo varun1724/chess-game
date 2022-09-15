@@ -43,13 +43,6 @@ class Background:
                     pygame.draw.rect(win, self.border_color, (constant.POS_LIST[s[0]][s[1]][0], constant.POS_LIST[s[0]][s[1]][1], self.width, self.height), 1)
 
 
-    def move(self, pieces, piece, move):
-
-        pieces[move[0]][move[1]] = piece
-        p1, p2 = conversions.pixels_to_list(piece.pos[0], piece.pos[1])
-        piece.pos = constant.POS_LIST[move[0]][move[1]]
-        pieces[p1][p2] = ' '
-
-        return pieces
+  
 
 
