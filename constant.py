@@ -1,7 +1,7 @@
 import pygame
 import os
 
-WIN_HEIGHT = 800
+WIN_HEIGHT = 820
 WIN_WIDTH = 800
 
 

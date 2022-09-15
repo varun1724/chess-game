@@ -119,7 +119,6 @@ def check_king(pieces, x, y):
         if (x, y+1) in spaces:
             pieces_copy = setup.setup_copy_board(pieces)
             pieces_copy = move(pieces_copy, pieces_copy[x][y], (x, y+2))
-            print(pieces_copy[x][7].can_castle)
             if not in_check(pieces_copy, x, y+2) and pieces_copy[x][7] != ' ' and pieces[x][7].can_castle:
                 spaces.append((x, y+2))
         elif (x, y-1) in spaces:
@@ -128,6 +127,8 @@ def check_king(pieces, x, y):
             if not in_check(pieces_copy, x, y-2) and pieces_copy[x][0] != ' ' and pieces[x][0].can_castle:
                 spaces.append((x, y-2))
 
+    if len (spaces) == 0 and in_check(pieces, x, y):
+        return ("mate")
                         
     return spaces
 
@@ -374,13 +375,18 @@ def protected_spaces(pieces, p, protected, check=False):
     return list(chain.from_iterable(protected_list))
 
 
-def in_check(pieces, x, y):
+def in_check(pieces, x, y, opposite=False):
 
     for row in pieces:
         for p in row:
-            if p != ' ' and p.team == pieces[x][y].team and p.type == 'k':
-                a, b = conversions.pixels_to_list(p.pos[0], p.pos[1])
-                break
+            if not opposite:
+                if p != ' ' and p.team == pieces[x][y].team and p.type == 'k':
+                    a, b = conversions.pixels_to_list(p.pos[0], p.pos[1])
+                    break
+            else:
+                if p != ' ' and p.team != pieces[x][y].team and p.type == 'k':
+                    a, b = conversions.pixels_to_list(p.pos[0], p.pos[1])
+                    break
 
     for row in pieces:
         for p in row:

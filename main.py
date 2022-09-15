@@ -18,6 +18,8 @@ def main():
     run = True
     white_turn = True
     just_moved = False
+    checkmate = False
+    promotion = False
 
     while run:
 
@@ -26,15 +28,21 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.K_1 and promotion == True:
+                pass
+            elif event.type == pygame.K_2 and promotion == True:
+                pass
+            elif event.type == pygame.K_3 and promotion == True:
+                pass
+            elif event.type == pygame.K_4 and promotion == True:
+                pass
+            elif event.type == pygame.MOUSEBUTTONDOWN and checkmate == False:
                 x, y = event.pos
                 for rows in pieces:
                     for p in rows:
                         if p != ' ':
                             if p.get_mask_rect().collidepoint(x, y):
-                                # print("ran1")
                                 if bg.selected == False and not just_moved:
-                                    # print("Case 1")
 
                                     if (white_turn and p.team == 'w') or (not white_turn and p.team == 'b'):
 
@@ -50,7 +58,6 @@ def main():
                                             bg.move_list = move_options
 
                                 elif bg.can_move == True:
-                                    # print("case 2")
                                     is_movable_spot = False
                                     for m in move_options:
                                         rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
@@ -68,18 +75,18 @@ def main():
                                             bg.can_move = False
                                             bg.selected = False
                                             is_movable_spot = True
+                                    if check_mate(pieces, selected_piece):
+                                        checkmate = True
                                     if not is_movable_spot:
                                         bg.selected = False
                                         bg.can_move = False
 
                                 else:
-                                    # print("case 3")
                                     bg.selected = False
                                     bg.can_move = False
                                     just_moved = False
 
                         elif bg.can_move == True:
-                            # print("case 4")
                             for m in move_options:
                                 rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
                                 if rect.collidepoint(x, y):
@@ -96,11 +103,50 @@ def main():
                                     bg.can_move = False
                                     bg.selected = False
                                     just_moved = True
+                            if check_mate(pieces, selected_piece):
+                                checkmate = True
                                     
         draw_game.draw_window(win, bg, pieces)
-
     
     pygame.quit()
     quit()
+
+
+
+def check_mate(pieces, selected_piece):
+    a, b = pixels_to_list(selected_piece.pos[0], selected_piece.pos[1])
+    if rules.in_check(pieces, a, b, True) == True:
+        for row in pieces:
+            for p in row:
+                if p != ' ' and p.team != pieces[a][b].team and p.type == 'k':
+                    c, d = pixels_to_list(p.pos[0], p.pos[1])
+                    break
+        if rules.check_king(pieces, c, d) == "mate":
+            return True
+
+    return False
+
+
+def promotion_piece(pieces, type):
+
+    for r in range(0, 8):
+        if pieces[0][r].type == 'p':
+            selected_piece = pieces[0][r]
+            break
+        elif pieces[7][r] == 'p':
+            selected_piece = pieces[7][r]
+            break
+
+    if type == 'q':
+        pass
+    elif type == 'n':
+        pass
+    elif type == 'r':
+        pass
+    elif type == 'b':
+        pass
+
+
+
 
 main()
