@@ -55,9 +55,15 @@ def main():
                                     for m in move_options:
                                         rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
                                         if rect.collidepoint(x, y):
+                                            if selected_piece.type == 'k' and selected_piece.can_castle == True:
+                                                if rect.x == selected_piece.pos[0] + 200:
+                                                    pieces = rules.move(pieces, pieces[m[0]][7], (m[0], 5))
+                                                elif rect.x == selected_piece.pos[0] - 200:
+                                                    pieces = rules.move(pieces, pieces[m[0]][0], (m[0], 3))
+                                                selected_piece.can_castle = False
+                                            elif selected_piece.type == 'r':
+                                                selected_piece.can_castle = False
                                             pieces = rules.move(pieces, selected_piece, m)
-                                            # a, b = pixels_to_list(selected_piece.pos[0], selected_piece.pos[1])
-                                            # print(rules.in_check(pieces, a, b))
                                             white_turn = not white_turn
                                             bg.can_move = False
                                             bg.selected = False
@@ -77,9 +83,15 @@ def main():
                             for m in move_options:
                                 rect = pygame.Rect(constant.POS_LIST[m[0]][m[1]][0], constant.POS_LIST[m[0]][m[1]][1], bg.width, bg.height)
                                 if rect.collidepoint(x, y):
+                                    if selected_piece.type == 'k' and selected_piece.can_castle == True:
+                                        if rect.x == selected_piece.pos[0] + 200:
+                                            pieces = rules.move(pieces, pieces[m[0]][7], (m[0], 5))
+                                        elif rect.x == selected_piece.pos[0] - 200:
+                                            pieces = rules.move(pieces, pieces[m[0]][0], (m[0], 3))
+                                        selected_piece.can_castle = False
+                                    elif selected_piece.type == 'r':
+                                        selected_piece.can_castle = False
                                     pieces = rules.move(pieces, selected_piece, m)
-                                    # a, b = pixels_to_list(selected_piece.pos[0], selected_piece.pos[1])
-                                    # print(rules.in_check(pieces, a, b))
                                     white_turn = not white_turn
                                     bg.can_move = False
                                     bg.selected = False

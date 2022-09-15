@@ -56,8 +56,6 @@ def check_pawn(pieces, x, y):
             if pieces[x+1][y] == ' ':
                 pieces_copy = setup.setup_copy_board(pieces)
                 pieces_copy = move(pieces_copy, pieces_copy[x][y], (x+1, y))
-                print(in_check(pieces_copy, x+1, y))
-                print(pieces_copy[2][7])
                 if not in_check(pieces_copy, x+1, y):
                     spaces.append((x+1, y))
             if x == 1 and pieces[x+2][y] == ' ':
@@ -80,25 +78,7 @@ def check_pawn(pieces, x, y):
 
     return spaces
 
-def pawn_protected_spaces(pieces, x, y):
 
-    spaces = []
-
-    for i in range(-1, 2, 2):
-        for j in range(-1, 2, 2):
-            if is_valid(x+i, y+j):
-                if pieces[x+i][y+j] == ' ':
-                    if pieces[x][y].team == 'b' and i > 0:
-                        spaces.append((x+i, y+j))
-                    elif pieces[x][y].team == 'w' and i < 0:
-                        spaces.append((x+i, y+j))
-                elif pieces[x+i][y+j].team != pieces[x][y].team:
-                    if pieces[x][y].team == 'b' and i > 0:
-                        spaces.append((x+i, y+j))
-                    elif pieces[x][y].team == 'w' and i < 0:
-                        spaces.append((x+i, y+j))
-
-    return spaces
 
 
 # For moving through check, move one space at a time and check if it is in check
@@ -133,25 +113,25 @@ def check_king(pieces, x, y):
     if len(intersection) > 0:
         for i in intersection:
             spaces.remove(i)
+
     
-    print(in_check(pieces, x, y))
-                
+    if pieces[x][y].can_castle:
+        if (x, y+1) in spaces:
+            pieces_copy = setup.setup_copy_board(pieces)
+            pieces_copy = move(pieces_copy, pieces_copy[x][y], (x, y+2))
+            print(pieces_copy[x][7].can_castle)
+            if not in_check(pieces_copy, x, y+2) and pieces_copy[x][7] != ' ' and pieces[x][7].can_castle:
+                spaces.append((x, y+2))
+        elif (x, y-1) in spaces:
+            pieces_copy = setup.setup_copy_board(pieces)
+            pieces_copy = move(pieces_copy, pieces_copy[x][y], (x, y-2))
+            if not in_check(pieces_copy, x, y-2) and pieces_copy[x][0] != ' ' and pieces[x][0].can_castle:
+                spaces.append((x, y-2))
+
+                        
     return spaces
 
 
-def king_protected_spaces(pieces, x, y):
-
-    spaces = []
-
-    for i in range(-1, 2):
-        for j in range(-1, 2):
-            if is_valid(x+i, y+j):
-                if pieces[x+i][y+j] == ' ':
-                    spaces.append((x+i, y+j))
-                elif pieces[x+i][y+j].team == pieces[x][y].team:
-                    spaces.append((x+i, y+j))
-
-    return spaces
 
 
 def check_rook(pieces, x, y, protected, check=False):
@@ -312,6 +292,51 @@ def check_bishop(pieces, x, y, protected, check=False):
 
 
 
+###################
+# Space checks
+###################
+
+
+def king_protected_spaces(pieces, x, y):
+
+    spaces = []
+
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            if is_valid(x+i, y+j):
+                if pieces[x+i][y+j] == ' ':
+                    spaces.append((x+i, y+j))
+                elif pieces[x+i][y+j].team == pieces[x][y].team:
+                    spaces.append((x+i, y+j))
+
+    return spaces
+
+
+def pawn_protected_spaces(pieces, x, y):
+
+    spaces = []
+
+    for i in range(-1, 2, 2):
+        for j in range(-1, 2, 2):
+            if is_valid(x+i, y+j):
+                if pieces[x+i][y+j] == ' ':
+                    if pieces[x][y].team == 'b' and i > 0:
+                        spaces.append((x+i, y+j))
+                    elif pieces[x][y].team == 'w' and i < 0:
+                        spaces.append((x+i, y+j))
+                elif pieces[x+i][y+j].team != pieces[x][y].team:
+                    if pieces[x][y].team == 'b' and i > 0:
+                        spaces.append((x+i, y+j))
+                    elif pieces[x][y].team == 'w' and i < 0:
+                        spaces.append((x+i, y+j))
+
+    return spaces
+
+
+###################
+# Helper functions 
+###################
+
 def is_valid(x, y):
 
     if x >= 0 and x <= 7:
@@ -349,8 +374,6 @@ def protected_spaces(pieces, p, protected, check=False):
     return list(chain.from_iterable(protected_list))
 
 
-
-
 def in_check(pieces, x, y):
 
     for row in pieces:
@@ -367,7 +390,6 @@ def in_check(pieces, x, y):
                         return True
     
     return False
-
 
 
 def move(pieces, piece, move):
