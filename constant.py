@@ -1,9 +1,12 @@
 import pygame
 import os
+pygame.font.init()
 
-WIN_HEIGHT = 820
+
+WIN_HEIGHT = 840
 WIN_WIDTH = 800
 
+BASE_FONT = pygame. font.SysFont ("Roboto Slab", 30)
 
 PIECE_IMGS = [
     pygame.transform.scale(pygame.image.load(os.path.join("chess-imgs", "Chess_rdt60.png")), (100, 100)),

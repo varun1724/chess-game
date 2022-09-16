@@ -14,7 +14,7 @@ class Background:
 
     def __init__(self, width, height, x=-1, y=-1, move_list=[], selected=False, can_move=False):
         self.width = width / 8
-        self.height = (height-20) / 8
+        self.height = (height-40) / 8
         self.x = x
         self.y = y
         self.move_list = move_list

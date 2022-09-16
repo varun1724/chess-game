@@ -28,13 +28,13 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            elif event.type == pygame.K_1 and promotion == True:
+            elif event.type == pygame.K_1 and promotion and not checkmate :
                 pass
-            elif event.type == pygame.K_2 and promotion == True:
+            elif event.type == pygame.K_2 and promotion and not checkmate:
                 pass
-            elif event.type == pygame.K_3 and promotion == True:
+            elif event.type == pygame.K_3 and promotion and not checkmate:
                 pass
-            elif event.type == pygame.K_4 and promotion == True:
+            elif event.type == pygame.K_4 and promotion and not checkmate:
                 pass
             elif event.type == pygame.MOUSEBUTTONDOWN and checkmate == False:
                 x, y = event.pos
@@ -106,7 +106,7 @@ def main():
                             if check_mate(pieces, selected_piece):
                                 checkmate = True
                                     
-        draw_game.draw_window(win, bg, pieces)
+        draw_game.draw_window(win, bg, pieces, checkmate)
     
     pygame.quit()
     quit()
