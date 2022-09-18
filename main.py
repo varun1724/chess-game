@@ -5,6 +5,7 @@ from conversions import pixels_to_list
 import draw_game
 import setup
 import rules
+import piece
 
 
 def main():
@@ -28,15 +29,20 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            elif event.type == pygame.K_1 and promotion and not checkmate :
-                pass
-            elif event.type == pygame.K_2 and promotion and not checkmate:
-                pass
-            elif event.type == pygame.K_3 and promotion and not checkmate:
-                pass
-            elif event.type == pygame.K_4 and promotion and not checkmate:
-                pass
-            elif event.type == pygame.MOUSEBUTTONDOWN and checkmate == False:
+            elif pygame.key.get_pressed()[pygame.K_1] and promotion and not checkmate:
+                print("queen")
+                promotion_piece(pieces, 'q')
+                promotion = False
+            elif pygame.key.get_pressed()[pygame.K_2] and promotion and not checkmate:
+                promotion_piece(pieces, 'n')
+                promotion = False
+            elif pygame.key.get_pressed()[pygame.K_3] and promotion and not checkmate:
+                promotion_piece(pieces, 'r')
+                promotion = False
+            elif pygame.key.get_pressed()[pygame.K_4] and promotion and not checkmate:
+                promotion_piece(pieces, 'b')
+                promotion = False
+            elif event.type == pygame.MOUSEBUTTONDOWN and not checkmate and not promotion:
                 x, y = event.pos
                 for rows in pieces:
                     for p in rows:
@@ -75,6 +81,9 @@ def main():
                                             bg.can_move = False
                                             bg.selected = False
                                             is_movable_spot = True
+                                    if check_promotion(pieces):
+                                        print("promotion true 1")
+                                        promotion = True
                                     if check_mate(pieces, selected_piece):
                                         checkmate = True
                                     if not is_movable_spot:
@@ -103,6 +112,9 @@ def main():
                                     bg.can_move = False
                                     bg.selected = False
                                     just_moved = True
+                            if check_promotion(pieces):
+                                promotion = True
+                                print("promotion true 2")
                             if check_mate(pieces, selected_piece):
                                 checkmate = True
                                     
@@ -127,26 +139,52 @@ def check_mate(pieces, selected_piece):
     return False
 
 
-def promotion_piece(pieces, type):
+def check_promotion(pieces):
 
     for r in range(0, 8):
-        if pieces[0][r].type == 'p':
+        if pieces[0][r] != ' ' and pieces[0][r].type == 'p':
+            return True
+        elif pieces[0][r] != ' ' and pieces[7][r] == 'p':
+            return True
+    
+    return False
+
+
+def promotion_piece(pieces, type):
+
+    a, b = 0, 0 
+
+    for r in range(0, 8):
+        if pieces[0][r] != ' ' and pieces[0][r].type == 'p':
             selected_piece = pieces[0][r]
+            b = r
             break
-        elif pieces[7][r] == 'p':
+        elif pieces[0][r] != ' ' and pieces[7][r] == 'p':
             selected_piece = pieces[7][r]
+            a = 7
+            b = r
             break
 
     if type == 'q':
-        pass
+        if selected_piece.team == 'w':
+            pieces[a][b] = piece.Piece(selected_piece.team, 'q', constant.PIECE_IMGS[10], selected_piece.pos)
+        else:
+            pieces[a][b] = piece.Piece(selected_piece.team, 'q', constant.PIECE_IMGS[3], selected_piece.pos)
     elif type == 'n':
-        pass
+        if selected_piece.team == 'w':
+            pieces[a][b] = piece.Piece(selected_piece.team, 'n', constant.PIECE_IMGS[8], selected_piece.pos)
+        else:
+            pieces[a][b] = piece.Piece(selected_piece.team, 'n', constant.PIECE_IMGS[1], selected_piece.pos)
     elif type == 'r':
-        pass
+        if selected_piece.team == 'w':
+            pieces[a][b] = piece.Piece(selected_piece.team, 'r', constant.PIECE_IMGS[7], selected_piece.pos)
+        else:
+            pieces[a][b] = piece.Piece(selected_piece.team, 'r', constant.PIECE_IMGS[0], selected_piece.pos)
     elif type == 'b':
-        pass
-
-
+        if selected_piece.team == 'w':
+            pieces[a][b] = piece.Piece(selected_piece.team, 'b', constant.PIECE_IMGS[9], selected_piece.pos)
+        else:
+            pieces[a][b] = piece.Piece(selected_piece.team, 'b', constant.PIECE_IMGS[2], selected_piece.pos)
 
 
 main()

@@ -124,7 +124,7 @@ def check_king(pieces, x, y):
         elif (x, y-1) in spaces:
             pieces_copy = setup.setup_copy_board(pieces)
             pieces_copy = move(pieces_copy, pieces_copy[x][y], (x, y-2))
-            if not in_check(pieces_copy, x, y-2) and pieces_copy[x][0] != ' ' and pieces[x][0].can_castle:
+            if not in_check(pieces_copy, x, y-2) and pieces_copy[x][0] != ' ' and pieces[x][0].can_castle and pieces[1][0] == ' ':
                 spaces.append((x, y-2))
 
     if len (spaces) == 0 and in_check(pieces, x, y):
